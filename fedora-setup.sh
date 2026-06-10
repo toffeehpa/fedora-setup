@@ -3,7 +3,7 @@
 # Обновление, установка и загрузка всего необходимого
 sudo dnf update -y && sudo dnf install -y gnome-todo gnome-tweaks gnome-extensions gnome-shell-extension-dash-to-dock gnome-shell-extension-places-menu gnome-shell-extension-gsconnect evolution gvfs-google ibm-plex-fonts-all && sudo dnf remove -y google-noto-color-emoji-fonts google-noto-emoji-fonts 
 sudo dnf remove "libreoffice*"
-#sudo dnf remove gnome-software # рецидив, раз уж flathub.org, то такой бестолковый магазин не нужен. Но его удаление всё таки будет опциональным
+#sudo dnf remove gnome-software # рецидив, раз уж существует решение как flathub.org, то такой бестолковый магазин не нужен. Но его удаление всё таки будет опциональным
 #И зачем нужен libreoffice с коробки когда оригинальный Microsoft Office давно существует в web?
 sudo dnf install -y twitter-twemoji-fonts #было вынесено отдельно ибо эти эмодзи будут тестироваться
 sudo git clone https://github.com/toffeehpa/kora-modified.git /usr/share/icons/kora
