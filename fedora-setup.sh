@@ -36,17 +36,25 @@ sudo systemctl enable --now fwupd-refresh.timer
 #sudo systemctl enable --now thermald # intel-only
 sudo systemctl enable --now irqbalance
 
+# Логика управления памятью в стиле Darwin
 sudo tee /etc/sysctl.d/99-memory-tuning.conf >/dev/null <<'EOF'
-vm.swappiness=10
+vm.swappiness=200
+vm.page-cluster=0
 vm.vfs_cache_pressure=50
+vm.dirty_background_ratio=3
+vm.dirty_ratio=5
 EOF
 
 sudo tee /etc/systemd/zram-generator.conf >/dev/null <<'EOF'
 [zram0]
-zram-size = ram / 2
-compression-algorithm = lz4
-swap-priority = 100
+zram-size = ram
+compression-algorithm = zstd
+swap-priority = 32767
 EOF
+
+sudo btrfs filesystem mkswapfile --size 16g /swapfile
+sudo swapon /swapfile
+echo "/swapfile none swap defaults,pri=1 0 0" | sudo tee -a /etc/fstab
 
 sudo tee /etc/dnf/dnf.conf >/dev/null <<'EOF'
 [main]
@@ -54,5 +62,5 @@ clean_requirements_on_remove=True
 best=True
 fastestmirror=True
 defaultyes=True
-keepcache=True	
+keepcache=True    
 EOF
