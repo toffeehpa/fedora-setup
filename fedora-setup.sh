@@ -52,6 +52,10 @@ compression-algorithm = zstd
 swap-priority = 32767
 EOF
 
+# Резервный SWAP-файл на Btrfs (второй эшелон)
+# ПРИМЕЧАНИЕ: Команда универсальна для NVMe и SATA SSD (флаг NOCOW применяется автоматически).
+# Если система ставится на относительно медленный SATA SSD, размер файла можно уменьшить 
+# (например, заменить на --size 8g), чтобы минимизировать нагрузку на шину SATA при сбросе данных.
 sudo btrfs filesystem mkswapfile --size 16g /swapfile
 sudo swapon /swapfile
 echo "/swapfile none swap defaults,pri=1 0 0" | sudo tee -a /etc/fstab
